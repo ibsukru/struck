@@ -1,49 +1,49 @@
-"use client";
+"use client"
 
-import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useCallback } from "react";
-import { Spinner } from "./Spinner";
+import { useQuery } from "@tanstack/react-query"
+import { useState, useEffect, useCallback } from "react"
+import { Spinner } from "./Spinner"
 
 // Types for our API response
 type WordResponse = {
-  word: string;
-};
+  word: string
+}
 
 type ErrorResponse = {
-  error: string;
-};
+  error: string
+}
 
 // Custom hook for word history
 const useWordHistory = (currentWord: string | undefined) => {
-  const [wordHistory, setWordHistory] = useState<string[]>([]);
+  const [wordHistory, setWordHistory] = useState<string[]>([])
 
   useEffect(() => {
     if (currentWord && !wordHistory.includes(currentWord)) {
       setWordHistory((prev) => {
-        const newHistory = [currentWord, ...prev];
+        const newHistory = [currentWord, ...prev]
         // Keep only the last 5 unique words
-        return newHistory.slice(0, 5);
-      });
+        return newHistory.slice(0, 5)
+      })
     }
-  }, [currentWord, wordHistory]);
+  }, [currentWord, wordHistory])
 
-  return wordHistory;
-};
+  return wordHistory
+}
 
 // Fetch function for the random word
 const fetchRandomWord = async (): Promise<WordResponse> => {
-  const response = await fetch("/api/random-word");
+  const response = await fetch("/api/random-word")
 
   if (!response.ok) {
-    const errorData: ErrorResponse = await response.json();
-    throw new Error(errorData.error || "Failed to fetch word");
+    const errorData: ErrorResponse = await response.json()
+    throw new Error(errorData.error || "Failed to fetch word")
   }
 
-  return response.json();
-};
+  return response.json()
+}
 
 export default function WordDisplay() {
-  const [isRefetchingEnabled, setIsRefetchingEnabled] = useState(true);
+  const [isRefetchingEnabled, setIsRefetchingEnabled] = useState(true)
 
   // Use React Query to fetch and manage the random word data
   const { data, isLoading, isError, error, isFetching, refetch } = useQuery({
@@ -53,20 +53,20 @@ export default function WordDisplay() {
     refetchIntervalInBackground: true,
     staleTime: 0, // Always consider data stale immediately
     retry: 3,
-  });
+  })
 
   // Track word history
-  const wordHistory = useWordHistory(data?.word);
+  const wordHistory = useWordHistory(data?.word)
 
   // Handle manual refetch
   const handleManualRefetch = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    refetch()
+  }, [refetch])
 
   // Toggle auto-refetch
   const toggleRefetching = useCallback(() => {
-    setIsRefetchingEnabled((prev) => !prev);
-  }, []);
+    setIsRefetchingEnabled((prev) => !prev)
+  }, [])
 
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto p-6 space-y-8">
@@ -156,5 +156,5 @@ export default function WordDisplay() {
         Auto-refresh: {isRefetchingEnabled ? "Every 10 seconds" : "Paused"}
       </div>
     </div>
-  );
+  )
 }
