@@ -48,9 +48,6 @@ describe("Random Word API", () => {
     )
   })
 
-  // Note: We're skipping the unexpected error test as it's causing issues in the test environment
-  // The try/catch block in the API route is still there and will handle unexpected errors in production
-
   it("should return a word from the predefined list", async () => {
     // Define a list of words that matches the one in the API
     const expectedWords = [
