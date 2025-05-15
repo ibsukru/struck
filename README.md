@@ -71,6 +71,5 @@ This ensures that only high-quality code is committed to the repository.
 
 ## Deploy on Vercel
 
-The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new) from the creators of Next.js.
+The easiest way to deploy this Next.js app is to use the [struck.vercel.app](https://struck.vercel.app/).
 
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
